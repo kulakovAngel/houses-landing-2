@@ -2,6 +2,15 @@ import React from "react"
 import { useStaticQuery, graphql } from "gatsby"
 import Img from "gatsby-image"
 
+export const fluidImage = graphql`
+    fragment fluidImage on File {
+            childImageSharp {
+                fluid {
+                    ...GatsbyImageSharpFluid
+                }
+            }
+        }
+    `;
 /*
  * This component is built using `gatsby-image` to automatically serve optimized
  * images with lazy loading and reduced file sizes. The image is loaded using a
@@ -13,20 +22,27 @@ import Img from "gatsby-image"
  * - `useStaticQuery`: https://www.gatsbyjs.org/docs/use-static-query/
  */
 
-const Image = () => {
-  const data = useStaticQuery(graphql`
-    query {
-      placeholderImage: file(relativePath: { eq: "gatsby-astronaut.png" }) {
-        childImageSharp {
-          fluid(maxWidth: 300) {
-            ...GatsbyImageSharpFluid
-          }
+const Image = ({name}) => {
+    
+    const data = useStaticQuery(graphql`
+        query {
+            image1: file(relativePath: { eq: "house-1.jpg" }) {
+                ...fluidImage
+            }
+            image2: file(relativePath: { eq: "house-2.jpg" }) {
+                ...fluidImage
+            }
+            image3: file(relativePath: { eq: "house-3.jpg" }) {
+                ...fluidImage
+            }
+            image4: file(relativePath: { eq: "house-4.jpg" }) {
+                ...fluidImage
+            }
         }
-      }
-    }
-  `)
+  `);
+  
 
-  return <Img fluid={data.placeholderImage.childImageSharp.fluid} />
+  return <Img fluid={data.image1.childImageSharp.fluid} />
 }
 
-export default Image
+export default Image;
